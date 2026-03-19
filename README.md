@@ -40,11 +40,11 @@ Due to the depth of a League of Legends game, there are many variables that are 
 
 In the datasets provided by Oracle's Elixir, each professional game is represented by 12 individual rows, with 10 for each player and 2 for a summary of each team's cumulative statistics. With 117,012 rows available, that is nearly 10,000 games to analyze! We kept rows that were the teams' summary statistics, dropped rows that had missing completely at random values (less than 1 percent), and added an additional columnm, 'length_min', representing the length of the game in minutes rounded to the nearest hundredth. 
 
-Below is the head of our cleaned dataset:
-| gameid                |   gamelength |   result |   dragons |   firstdragon |   golddiffat10 |   golddiffat15 |   xpdiffat10 |   xpdiffat15 |   csdiffat10 |   csdiffat15 |   killsat10 |   killsat15 |   deathsat10 |   deathsat15 |   firstblood |   firsttower |   firstherald | league   |   year |   patch |   firstbaron |   length_min |
-|:----------------------|-------------:|---------:|----------:|--------------:|---------------:|---------------:|-------------:|-------------:|-------------:|-------------:|------------:|------------:|-------------:|-------------:|-------------:|-------------:|--------------:|:---------|-------:|--------:|-------------:|-------------:|
-| ESPORTSTMNT03/1241318 |         2220 |        1 |         2 |             0 |            117 |           -825 |         -137 |        -1665 |            8 |          -12 |           0 |           0 |            0 |            1 |            0 |            0 |             1 | KeSPA    |   2020 |    9.24 |            1 |        37    |
-| ESPORTSTMNT03/1241318 |         2220 |        0 |         3 |             1 |           -117 |            825 |          137 |         1665 |           -8 |           12 |           0 |           1 |            0 |            0 |            1 |            1 |             0 | KeSPA    |   2020 |    9.24 |            0 |        37    |
-| ESPORTSTMNT03/1241322 |         2227 |        0 |         1 |             0 |          -2014 |          -5484 |        -2149 |        -4833 |          -34 |          -56 |           0 |           0 |            3 |            6 |            0 |            0 |             0 | KeSPA    |   2020 |    9.24 |            0 |        37.12 |
-| ESPORTSTMNT03/1241322 |         2227 |        1 |         4 |             1 |           2014 |           5484 |         2149 |         4833 |           34 |           56 |           3 |           6 |            0 |            0 |            1 |            1 |             1 | KeSPA    |   2020 |    9.24 |            1 |        37.12 |
-| ESPORTSTMNT03/1241324 |         1711 |        1 |         4 |             1 |            682 |           2566 |          615 |         2097 |           25 |           53 |           0 |           0 |            0 |            0 |            0 |            1 |             1 | KeSPA    |   2020 |    9.24 |            1 |        28.52 |
+Below is the head of our cleaned dataset, with some columns removed for clarity:
+| gameid                |   gamelength |   result |   dragons |   golddiffat10 |   length_min |
+|:----------------------|-------------:|---------:|----------:|---------------:|-------------:|
+| ESPORTSTMNT03/1241318 |         2220 |        1 |         2 |            117 |        37    |
+| ESPORTSTMNT03/1241318 |         2220 |        0 |         3 |           -117 |        37    |
+| ESPORTSTMNT03/1241322 |         2227 |        0 |         1 |          -2014 |        37.12 |
+| ESPORTSTMNT03/1241322 |         2227 |        1 |         4 |           2014 |        37.12 |
+| ESPORTSTMNT03/1241324 |         1711 |        1 |         4 |            682 |        28.52 |
