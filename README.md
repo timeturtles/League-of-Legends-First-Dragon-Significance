@@ -41,6 +41,7 @@ Due to the depth of a League of Legends game, there are many variables that are 
 In the datasets provided by Oracle's Elixir, each professional game is represented by 12 individual rows, with 10 for each player and 2 for a summary of each team's cumulative statistics. With 117,012 rows available, that is nearly 10,000 games to analyze! We kept rows that were the teams' summary statistics, dropped rows that had missing completely at random values (less than 1 percent), and added an additional columnm, 'length_min', representing the length of the game in minutes rounded to the nearest hundredth. 
 
 Below is the head of our cleaned dataset, with some columns removed for clarity:
+
 | gameid                |   gamelength |   result |   dragons |   golddiffat10 |   length_min |
 |:----------------------|-------------:|---------:|----------:|---------------:|-------------:|
 | ESPORTSTMNT03/1241318 |         2220 |        1 |         2 |            117 |        37    |
