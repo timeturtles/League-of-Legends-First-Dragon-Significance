@@ -16,3 +16,31 @@ Within the gameplay loop of League of Legends, there are key objectives that pro
 
 ### Relevant Variables 
 
+Due to the depth of a League of Legends game, there are many variables that are irrelevant to our project, so we keep the following columns:
+
+'gameid'
+'gamelength'
+'result'
+'dragons'
+'firstdragon'
+'golddiffat10' and 'golddiffat15' 
+'xpdiffat10' and 'xpdiffat15'
+'csdiffat10' and 'csdiffat15'
+'killsat10' and 'killsat15'
+'deathsat10' and 'deathsat15'
+'firstblood'
+'firsttower'
+'firstherald'
+'league'
+'year'
+'patch'
+'firstbaron'
+
+# Data Cleaning and Exploratory Data Analysis 
+
+In the datasets provided by Oracle's Elixir, each professional game is represented by 12 individual rows, with 10 for each player and 2 for a summary of each team's cumulative statistics. With 117,012 rows available, that is nearly 10,000 games to analyze! We kept rows that were the teams' summary statistics, dropped rows that had missing completely at random values (less than 1 percent), and added an additional columnm, 'length_min', representing the length of the game in minutes rounded to the nearest hundredth. 
+
+Below is the head of our cleaned dataset:
+```py
+print(cleaned.head().to_markdown(index=False))
+```
