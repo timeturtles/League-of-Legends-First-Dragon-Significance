@@ -205,6 +205,18 @@ For our baseline model, we used the following set of features to predict `firstb
 
 # Final Model
 
-To improve upon our base model, our final model uses feature engineering and adds the `wardsplaced` and `firsttothreetowers` columns. For feature engineering, we combine the xp and gold diff columns to create the `gold_growth` and `xp_growth` columns. Wards are used to gather information throughout a game, and are primarily used near objectives such as baron. Hence, the addition of `wardsplaced` would help predict the team with a higher advantage for capturing baron. As for the addition of `firsttothreetowers`, it is also a good indication whether a team is doing better than the other. 
+To improve upon our base model, our final model uses feature engineering and adds the `wardsplaced` and `firsttothreetowers` columns. For feature engineering, we combine the xp and gold diff columns to create the `gold_growth` and `xp_growth` columns. Wards are used to gather information throughout a game, and are primarily used near objectives such as baron. Hence, the addition of `wardsplaced` would help predict the team with a higher advantage for capturing baron. As for the addition of `firsttothreetowers`, it is also a good indication whether a team is doing better than the other, similar to the other first variables. 
 
 Additionally, our final model uses the model max iteration hyperparameter to tune the model to be more accurate, with the best result being 100. With these new features and model improvements, our model now has an accuracy, precision, and recall of 0.71, 0.69, 0.72, respectively. This results in a F1-score of 0.70, a decent improvement to our base model!
+
+# Fairness Analysis
+
+We want to see whether our model performs fairly between two different distributions, one where the team did secure the first dragon, and one where they did not. We ask the question: "Does our model perform worse for teams that did secure first dragon versus teams that did not?" To answer this, we perform a permutation test to see if there are differences in accuracy. We assigned group X to be the team that killed the first dragon, and group Y to be the team that did not. Our metric to measure is the difference of accuracy, with a significance level of 0.05.
+
+Our hypotheses are as follows: 
+
+Null: Our model is fair. Its accuracy for the teams that killed the first dragon and those that didn't are roughly the same.
+
+Alternative: Our model is unfair. Its accuracy for the teams that killed the first dragon and those that didn't are not the same.
+
+Our model reached a p-value of 1, so we fail to reject the null hypothesis. 
