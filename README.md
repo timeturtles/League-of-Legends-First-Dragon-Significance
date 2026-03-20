@@ -18,23 +18,22 @@ Within the gameplay loop of League of Legends, there are key objectives that pro
 
 Due to the depth of a League of Legends game, there are many variables that are irrelevant to our project, so we keep the following columns:
 
-`gameid`
-`gamelength`
-`result`
-`dragons`
-`firstdragon`
-`golddiffat10` and `golddiffat15`
-`xpdiffat10` and `xpdiffat15`
-`csdiffat10` and `csdiffat15`
-`killsat10` and `killsat15`
-`deathsat10` and `deathsat15`
-`firstblood`
-`firsttower`
-`firstherald`
-`league`
-`year`
-`patch`
-`firstbaron`
+- `gameid`: The ID of each unique game, distinguishes between each game
+- `gamelength`: Temporal length of the game in seconds
+- `result`: Binary column, indicates which team won the game
+- `dragons`: The number of dragons slain by a team cumulatively in a game
+- `firstdragon`: Binary column, indicates which team killed by the first dragon of a game
+- `golddiffat10` and `golddiffat15`: Difference of gold between two players of the same role within a game at the 10 and 15 minute mark, respectively
+- `xpdiffat10` and `xpdiffat15`: Difference of XP between two players of the same role within a game at the 10 and 15 minute mark, respectively
+- `firstblood`: Binary column, indicates which team got the first kill of a game
+- `firsttower`: Binary column, indicates which team got the first tower of a game
+- `firsttothreetowers`: Binary column, indicates which team got the third tower of the opponent's of a game
+- `firstherald`: Binary column, indicates which team killed the first rift herald of a game
+- `firstbaron`: Binary column, indicates which team killed the first baron nashor of a game
+- `league`: The specific tournament that the game was held under
+- `year`: The year that the game took place
+- `patch`: The patch state current to the game
+- `wardsplaced`: Indicates how many wards were placed by the player or the team as a whole
 
 # Data Cleaning and Exploratory Data Analysis 
 
@@ -175,3 +174,37 @@ After performing this permutation test, we found an observed TVD of 0.4979674796
   frameborder="0"
 ></iframe>
 
+# Hypothesis Testing
+
+For our hypothesis testing, we wanted to see whether there was a higher chance of winning a game for the team who secured the first dragon. To test this, we compared the distribution of the team that did secure the first dragon versus the team that did not to see if they had similar win rates.  
+
+Null: The probability of winning a game with first dragon is the same without first dragon.
+
+Alternative: The probability of winning a game with first dragon is higher than without first dragon.
+
+We chose to use the difference of means as our test statistic with a significance level of 0.05. We found an observed test statistic of 0.1938712360713189, with a p-value of 0, thus rejecting the null hypothesis. This suggests that capturing the first dragon has a significant positive impact on a team's success.
+
+Below is a histogram showing the observed mean compared to the distribution of simulated means under the null hypothesis.
+
+<iframe
+  src="assets/hypothesis.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+# Framing a Prediction Problem
+
+After the results of our hypothesis testing, we wanted to predict which team captured the `firstbaron`, another crucial teamwide objective, based on other provided information about the completed game. Capturing the first baron is arguably more important than the first dragon, so for players, this information could be helpful to make smart gameplay choices, such as whether it is feasible to go for baron or focus on farming. Some possible columns we dove deeper into are the differences in stats between teams at the 10 and 15 minute mark and the other "first" columns, indications of whether a team captured the first of a significant objective. 
+
+We are creating a binary classification model, which predicts either team. Given that our model is a classification model, our best metric is accuracy, or the metric of fit. At the time of prediction we would have access to the differences at 10 and 15 minutes since the first baron spawns at the 20 minute mark. Additionally, the baron spawns as the latest of the "first" columns, and will likely have been captured before in a professional game. Our data is split into 80 percent training data and 20 percent testing data to ensure that we do not overfit to the given data. 
+
+# Baseline Model 
+
+For our baseline model, we used the following set of features to predict `firstbaron`: `golddiffat10`, `golddiffat15`, `xpdiffat10`, `xpdiffat15`, `firstdragon`, `firsttower`, `firstherald`, `firstblood`. All the difference variables are quantitative, and first variables were one-hot encoded into binary columns, which are nominal. We then used LogisticRegression to predict, and achieved an accuracy of 0.64, meaning that 64 percent of our classifications were accurate to the data. Additionally, we achieved a precision and recall score of 0.64 and 0.55 respectively, resulting in a F1-score of 0.59, which indicates poor performance. 
+
+# Final Model
+
+To improve upon our base model, our final model uses feature engineering and adds the `wardsplaced` and `firsttothreetowers` columns. For feature engineering, we combine the xp and gold diff columns to create the `gold_growth` and `xp_growth` columns. Wards are used to gather information throughout a game, and are primarily used near objectives such as baron. Hence, the addition of `wardsplaced` would help predict the team with a higher advantage for capturing baron. As for the addition of `firsttothreetowers`, it is also a good indication whether a team is doing better than the other. 
+
+Additionally, our final model uses the model max iteration hyperparameter to tune the model to be more accurate, with the best result being 100. With these new features and model improvements, our model now has an accuracy, precision, and recall of 0.71, 0.69, 0.72, respectively. This results in a F1-score of 0.70, a decent improvement to our base model!
